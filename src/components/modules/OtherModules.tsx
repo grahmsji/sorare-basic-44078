@@ -1,35 +1,65 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { PoolAccessManagement } from './piscine/PoolAccessManagement';
+import { PoolServicesManagement } from './piscine/PoolServicesManagement';
+import { PoolMaintenanceManagement } from './piscine/PoolMaintenanceManagement';
 
-export const PiscineModule = () => (
-  <div className="bg-card rounded-xl shadow-card p-6">
-    <div className="flex justify-between items-center mb-6">
-      <div>
-        <h2 className="text-2xl font-bold text-card-foreground">Gestion Piscine</h2>
-        <p className="text-muted-foreground text-sm mt-1">Abonnements et accès piscine</p>
+export const PiscineModule = () => {
+  return (
+    <div className="bg-card rounded-xl shadow-card p-6">
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h2 className="text-2xl font-bold text-card-foreground">Gestion Piscine</h2>
+          <p className="text-muted-foreground text-sm mt-1">Accès, services et maintenance</p>
+        </div>
       </div>
-      <Button>Nouvel Abonnement</Button>
+
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div className="p-5 bg-primary/10 rounded-xl border border-primary/20">
+          <p className="text-xs text-muted-foreground font-medium mb-1">Visiteurs Aujourd'hui</p>
+          <p className="text-3xl font-bold text-primary">42</p>
+          <p className="text-xs text-muted-foreground mt-1">Capacité: 50</p>
+        </div>
+        <div className="p-5 bg-success/10 rounded-xl border border-success/20">
+          <p className="text-xs text-muted-foreground font-medium mb-1">Abonnés Actifs</p>
+          <p className="text-3xl font-bold text-success">156</p>
+          <p className="text-xs text-success mt-1">+12 ce mois</p>
+        </div>
+        <div className="p-5 bg-warning/10 rounded-xl border border-warning/20">
+          <p className="text-xs text-muted-foreground font-medium mb-1">Services Actifs</p>
+          <p className="text-3xl font-bold text-warning">28</p>
+          <p className="text-xs text-muted-foreground mt-1">Transats, serviettes...</p>
+        </div>
+        <div className="p-5 bg-info/10 rounded-xl border border-info/20">
+          <p className="text-xs text-muted-foreground font-medium mb-1">Revenus Mois</p>
+          <p className="text-3xl font-bold text-info">2.8M</p>
+          <p className="text-xs text-info mt-1">+18% vs dernier mois</p>
+        </div>
+      </div>
+
+      <Tabs defaultValue="access" className="w-full">
+        <TabsList className="grid w-full grid-cols-3 mb-6">
+          <TabsTrigger value="access">Accès & Réservations</TabsTrigger>
+          <TabsTrigger value="services">Services</TabsTrigger>
+          <TabsTrigger value="maintenance">Maintenance</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="access">
+          <PoolAccessManagement />
+        </TabsContent>
+
+        <TabsContent value="services">
+          <PoolServicesManagement />
+        </TabsContent>
+
+        <TabsContent value="maintenance">
+          <PoolMaintenanceManagement />
+        </TabsContent>
+      </Tabs>
     </div>
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-      <div className="p-5 bg-primary/10 rounded-xl border border-primary/20">
-        <p className="text-xs text-muted-foreground font-medium mb-1">Abonnés Actifs</p>
-        <p className="text-3xl font-bold text-primary">156</p>
-      </div>
-      <div className="p-5 bg-success/10 rounded-xl border border-success/20">
-        <p className="text-xs text-muted-foreground font-medium mb-1">Visiteurs Jour</p>
-        <p className="text-3xl font-bold text-success">34</p>
-      </div>
-      <div className="p-5 bg-warning/10 rounded-xl border border-warning/20">
-        <p className="text-xs text-muted-foreground font-medium mb-1">Capacité</p>
-        <p className="text-3xl font-bold text-warning">34/50</p>
-      </div>
-      <div className="p-5 bg-info/10 rounded-xl border border-info/20">
-        <p className="text-xs text-muted-foreground font-medium mb-1">Revenus Mois</p>
-        <p className="text-3xl font-bold text-info">2.8M</p>
-      </div>
-    </div>
-  </div>
-);
+  );
+};
 
 export const GymModule = () => (
   <div className="bg-card rounded-xl shadow-card p-6">
