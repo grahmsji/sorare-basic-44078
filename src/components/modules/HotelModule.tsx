@@ -1,5 +1,4 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Hotel, Bed, Calendar, Sparkles } from 'lucide-react';
+import { Hotel } from 'lucide-react';
 import { RoomManagement } from './hotel/RoomManagement';
 import { ReservationManagement } from './hotel/ReservationManagement';
 import { HotelServices } from './hotel/HotelServices';
@@ -9,6 +8,18 @@ interface HotelModuleProps {
 }
 
 export const HotelModule = ({ defaultTab = 'rooms' }: HotelModuleProps) => {
+  const renderContent = () => {
+    switch (defaultTab) {
+      case 'rooms':
+        return <RoomManagement />;
+      case 'reservations':
+        return <ReservationManagement />;
+      case 'services':
+        return <HotelServices />;
+      default:
+        return <RoomManagement />;
+    }
+  };
   return (
     <div className="bg-card rounded-xl shadow-card p-6">
       <div className="mb-6">
@@ -38,34 +49,9 @@ export const HotelModule = ({ defaultTab = 'rooms' }: HotelModuleProps) => {
         </div>
       </div>
 
-      <Tabs defaultValue={defaultTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="rooms" className="flex items-center gap-2">
-            <Bed className="w-4 h-4" />
-            Chambres
-          </TabsTrigger>
-          <TabsTrigger value="reservations" className="flex items-center gap-2">
-            <Calendar className="w-4 h-4" />
-            Réservations
-          </TabsTrigger>
-          <TabsTrigger value="services" className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4" />
-            Services
-          </TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="rooms" className="mt-6">
-          <RoomManagement />
-        </TabsContent>
-        
-        <TabsContent value="reservations" className="mt-6">
-          <ReservationManagement />
-        </TabsContent>
-        
-        <TabsContent value="services" className="mt-6">
-          <HotelServices />
-        </TabsContent>
-      </Tabs>
+      <div className="mt-6">
+        {renderContent()}
+      </div>
     </div>
   );
 };
