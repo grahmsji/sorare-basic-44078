@@ -1,18 +1,35 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Waves } from 'lucide-react';
 import { PoolAccessManagement } from './piscine/PoolAccessManagement';
 import { PoolServicesManagement } from './piscine/PoolServicesManagement';
 import { PoolMaintenanceManagement } from './piscine/PoolMaintenanceManagement';
 
-export const PiscineModule = () => {
+interface PiscineModuleProps {
+  defaultTab?: 'access' | 'services' | 'maintenance';
+}
+
+export const PiscineModule = ({ defaultTab = 'access' }: PiscineModuleProps) => {
+  const renderContent = () => {
+    switch (defaultTab) {
+      case 'access':
+        return <PoolAccessManagement />;
+      case 'services':
+        return <PoolServicesManagement />;
+      case 'maintenance':
+        return <PoolMaintenanceManagement />;
+      default:
+        return <PoolAccessManagement />;
+    }
+  };
   return (
     <div className="bg-card rounded-xl shadow-card p-6">
-      <div className="flex justify-between items-center mb-6">
-        <div>
+      <div className="mb-6">
+        <div className="flex items-center gap-3 mb-2">
+          <Waves className="w-8 h-8 text-primary" />
           <h2 className="text-2xl font-bold text-card-foreground">Gestion Piscine</h2>
-          <p className="text-muted-foreground text-sm mt-1">Accès, services et maintenance</p>
         </div>
+        <p className="text-muted-foreground text-sm">Accès, services et maintenance de la piscine</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
@@ -38,25 +55,9 @@ export const PiscineModule = () => {
         </div>
       </div>
 
-      <Tabs defaultValue="access" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 mb-6">
-          <TabsTrigger value="access">Accès & Réservations</TabsTrigger>
-          <TabsTrigger value="services">Services</TabsTrigger>
-          <TabsTrigger value="maintenance">Maintenance</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="access">
-          <PoolAccessManagement />
-        </TabsContent>
-
-        <TabsContent value="services">
-          <PoolServicesManagement />
-        </TabsContent>
-
-        <TabsContent value="maintenance">
-          <PoolMaintenanceManagement />
-        </TabsContent>
-      </Tabs>
+      <div className="mt-6">
+        {renderContent()}
+      </div>
     </div>
   );
 };

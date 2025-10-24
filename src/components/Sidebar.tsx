@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Hotel, Car, Home, Users, Calendar, DollarSign, BarChart3, Settings, Menu, X, Utensils, Waves, Dumbbell, PartyPopper, ChevronDown, ChevronRight, Bed, CalendarCheck, Sparkles, ShoppingCart, UtensilsCrossed, Users as UsersIcon } from 'lucide-react';
+import { Hotel, Car, Home, Users, Calendar, DollarSign, BarChart3, Settings, Menu, X, Utensils, Waves, Dumbbell, PartyPopper, ChevronDown, ChevronRight, Bed, CalendarCheck, Sparkles, ShoppingCart, UtensilsCrossed, Users as UsersIcon, UserCheck, Wrench, Droplets } from 'lucide-react';
 
 interface SidebarProps {
   activeModule: string;
@@ -37,7 +37,16 @@ const modules: ModuleItem[] = [
       { id: 'restaurant-tables', name: 'Tables', icon: UsersIcon },
     ]
   },
-  { id: 'piscine', name: 'Piscine', icon: Waves },
+  { 
+    id: 'piscine', 
+    name: 'Piscine', 
+    icon: Waves,
+    children: [
+      { id: 'piscine-access', name: 'Accès & Réservations', icon: UserCheck },
+      { id: 'piscine-services', name: 'Services', icon: Droplets },
+      { id: 'piscine-maintenance', name: 'Maintenance', icon: Wrench },
+    ]
+  },
   { id: 'gym', name: 'Salle de Gym', icon: Dumbbell },
   { id: 'salle-fete', name: 'Location Salle de Fête', icon: PartyPopper },
   { id: 'vehicule', name: 'Location Véhicules', icon: Car },
@@ -49,7 +58,7 @@ const modules: ModuleItem[] = [
 ];
 
 export const Sidebar = ({ activeModule, setActiveModule, sidebarOpen, setSidebarOpen }: SidebarProps) => {
-  const [expandedModules, setExpandedModules] = useState<string[]>(['hotel', 'restaurant']);
+  const [expandedModules, setExpandedModules] = useState<string[]>(['hotel', 'restaurant', 'piscine']);
   return (
     <>
       <button

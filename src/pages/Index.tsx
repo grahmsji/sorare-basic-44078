@@ -41,6 +41,12 @@ const Index = () => {
         return <RestaurantModule defaultTab="tables" />;
       case 'piscine':
         return <PiscineModule />;
+      case 'piscine-access':
+        return <PiscineModule defaultTab="access" />;
+      case 'piscine-services':
+        return <PiscineModule defaultTab="services" />;
+      case 'piscine-maintenance':
+        return <PiscineModule defaultTab="maintenance" />;
       case 'gym':
         return <GymModule />;
       case 'salle-fete':
