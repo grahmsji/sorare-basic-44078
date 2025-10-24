@@ -1,5 +1,4 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { UtensilsCrossed, ShoppingCart, Users, TrendingUp } from 'lucide-react';
+import { UtensilsCrossed } from 'lucide-react';
 import { OrderManagement } from './restaurant/OrderManagement';
 import { MenuManagement } from './restaurant/MenuManagement';
 import { TableManagement } from './restaurant/TableManagement';
@@ -9,6 +8,18 @@ interface RestaurantModuleProps {
 }
 
 export const RestaurantModule = ({ defaultTab = 'orders' }: RestaurantModuleProps) => {
+  const renderContent = () => {
+    switch (defaultTab) {
+      case 'orders':
+        return <OrderManagement />;
+      case 'menu':
+        return <MenuManagement />;
+      case 'tables':
+        return <TableManagement />;
+      default:
+        return <OrderManagement />;
+    }
+  };
   return (
     <div className="bg-card rounded-xl shadow-card p-6">
       <div className="mb-6">
@@ -38,34 +49,9 @@ export const RestaurantModule = ({ defaultTab = 'orders' }: RestaurantModuleProp
         </div>
       </div>
 
-      <Tabs value={defaultTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="orders" className="flex items-center gap-2">
-            <ShoppingCart className="w-4 h-4" />
-            Commandes
-          </TabsTrigger>
-          <TabsTrigger value="menu" className="flex items-center gap-2">
-            <UtensilsCrossed className="w-4 h-4" />
-            Menu
-          </TabsTrigger>
-          <TabsTrigger value="tables" className="flex items-center gap-2">
-            <Users className="w-4 h-4" />
-            Tables
-          </TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="orders" className="mt-6">
-          <OrderManagement />
-        </TabsContent>
-        
-        <TabsContent value="menu" className="mt-6">
-          <MenuManagement />
-        </TabsContent>
-        
-        <TabsContent value="tables" className="mt-6">
-          <TableManagement />
-        </TabsContent>
-      </Tabs>
+      <div className="mt-6">
+        {renderContent()}
+      </div>
     </div>
   );
 };
