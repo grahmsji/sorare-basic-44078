@@ -33,6 +33,12 @@ const Index = () => {
         return <HotelModule defaultTab="services" />;
       case 'restaurant':
         return <RestaurantModule />;
+      case 'restaurant-orders':
+        return <RestaurantModule defaultTab="orders" />;
+      case 'restaurant-menu':
+        return <RestaurantModule defaultTab="menu" />;
+      case 'restaurant-tables':
+        return <RestaurantModule defaultTab="tables" />;
       case 'piscine':
         return <PiscineModule />;
       case 'gym':

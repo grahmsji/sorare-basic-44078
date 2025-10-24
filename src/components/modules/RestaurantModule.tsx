@@ -4,7 +4,11 @@ import { OrderManagement } from './restaurant/OrderManagement';
 import { MenuManagement } from './restaurant/MenuManagement';
 import { TableManagement } from './restaurant/TableManagement';
 
-export const RestaurantModule = () => {
+interface RestaurantModuleProps {
+  defaultTab?: 'orders' | 'menu' | 'tables';
+}
+
+export const RestaurantModule = ({ defaultTab = 'orders' }: RestaurantModuleProps) => {
   return (
     <div className="bg-card rounded-xl shadow-card p-6">
       <div className="mb-6">
@@ -34,7 +38,7 @@ export const RestaurantModule = () => {
         </div>
       </div>
 
-      <Tabs defaultValue="orders" className="w-full">
+      <Tabs value={defaultTab} className="w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="orders" className="flex items-center gap-2">
             <ShoppingCart className="w-4 h-4" />
