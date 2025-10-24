@@ -1,4 +1,5 @@
-import { Hotel, Car, Home, Users, Calendar, DollarSign, BarChart3, Settings, Menu, X, Utensils, Waves, Dumbbell, PartyPopper } from 'lucide-react';
+import { useState } from 'react';
+import { Hotel, Car, Home, Users, Calendar, DollarSign, BarChart3, Settings, Menu, X, Utensils, Waves, Dumbbell, PartyPopper, ChevronDown, ChevronRight, Bed, CalendarCheck, Sparkles } from 'lucide-react';
 
 interface SidebarProps {
   activeModule: string;
@@ -7,9 +8,25 @@ interface SidebarProps {
   setSidebarOpen: (open: boolean) => void;
 }
 
-const modules = [
+interface ModuleItem {
+  id: string;
+  name: string;
+  icon: React.ComponentType<any>;
+  children?: ModuleItem[];
+}
+
+const modules: ModuleItem[] = [
   { id: 'dashboard', name: 'Tableau de Bord', icon: BarChart3 },
-  { id: 'hotel', name: 'Gestion Hôtelière', icon: Hotel },
+  { 
+    id: 'hotel', 
+    name: 'Gestion Hôtelière', 
+    icon: Hotel,
+    children: [
+      { id: 'hotel-rooms', name: 'Chambres', icon: Bed },
+      { id: 'hotel-reservations', name: 'Réservations', icon: CalendarCheck },
+      { id: 'hotel-services', name: 'Services', icon: Sparkles },
+    ]
+  },
   { id: 'restaurant', name: 'Bar & Restaurant', icon: Utensils },
   { id: 'piscine', name: 'Piscine', icon: Waves },
   { id: 'gym', name: 'Salle de Gym', icon: Dumbbell },
@@ -23,6 +40,7 @@ const modules = [
 ];
 
 export const Sidebar = ({ activeModule, setActiveModule, sidebarOpen, setSidebarOpen }: SidebarProps) => {
+  const [expandedModules, setExpandedModules] = useState<string[]>(['hotel']);
   return (
     <>
       <button
@@ -46,22 +64,62 @@ export const Sidebar = ({ activeModule, setActiveModule, sidebarOpen, setSidebar
           <nav className="flex-1 overflow-y-auto py-4">
             {modules.map((module) => {
               const Icon = module.icon;
+              const isExpanded = expandedModules.includes(module.id);
+              const hasChildren = module.children && module.children.length > 0;
+              
               return (
-                <button
-                  key={module.id}
-                  onClick={() => {
-                    setActiveModule(module.id);
-                    if (window.innerWidth < 1024) setSidebarOpen(false);
-                  }}
-                  className={`w-full flex items-center gap-3 px-6 py-3 transition-colors ${
-                    activeModule === module.id
-                      ? 'bg-sidebar-accent text-sidebar-primary border-l-4 border-sidebar-primary'
-                      : 'hover:bg-sidebar-accent/50'
-                  }`}
-                >
-                  <Icon size={20} />
-                  <span className="text-sm font-medium">{module.name}</span>
-                </button>
+                <div key={module.id}>
+                  <button
+                    onClick={() => {
+                      if (hasChildren) {
+                        setExpandedModules(prev => 
+                          prev.includes(module.id) 
+                            ? prev.filter(id => id !== module.id)
+                            : [...prev, module.id]
+                        );
+                      } else {
+                        setActiveModule(module.id);
+                        if (window.innerWidth < 1024) setSidebarOpen(false);
+                      }
+                    }}
+                    className={`w-full flex items-center gap-3 px-6 py-3 transition-colors ${
+                      activeModule === module.id
+                        ? 'bg-sidebar-accent text-sidebar-primary border-l-4 border-sidebar-primary'
+                        : 'hover:bg-sidebar-accent/50'
+                    }`}
+                  >
+                    <Icon size={20} />
+                    <span className="text-sm font-medium flex-1 text-left">{module.name}</span>
+                    {hasChildren && (
+                      isExpanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />
+                    )}
+                  </button>
+                  
+                  {hasChildren && isExpanded && (
+                    <div className="bg-sidebar-accent/30">
+                      {module.children!.map((child) => {
+                        const ChildIcon = child.icon;
+                        return (
+                          <button
+                            key={child.id}
+                            onClick={() => {
+                              setActiveModule(child.id);
+                              if (window.innerWidth < 1024) setSidebarOpen(false);
+                            }}
+                            className={`w-full flex items-center gap-3 px-12 py-2.5 transition-colors ${
+                              activeModule === child.id
+                                ? 'bg-sidebar-accent text-sidebar-primary border-l-4 border-sidebar-primary'
+                                : 'hover:bg-sidebar-accent/50'
+                            }`}
+                          >
+                            <ChildIcon size={18} />
+                            <span className="text-sm">{child.name}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
               );
             })}
           </nav>

@@ -25,6 +25,12 @@ const Index = () => {
         return <Dashboard />;
       case 'hotel':
         return <HotelModule />;
+      case 'hotel-rooms':
+        return <HotelModule defaultTab="rooms" />;
+      case 'hotel-reservations':
+        return <HotelModule defaultTab="reservations" />;
+      case 'hotel-services':
+        return <HotelModule defaultTab="services" />;
       case 'restaurant':
         return <RestaurantModule />;
       case 'piscine':

@@ -4,7 +4,11 @@ import { RoomManagement } from './hotel/RoomManagement';
 import { ReservationManagement } from './hotel/ReservationManagement';
 import { HotelServices } from './hotel/HotelServices';
 
-export const HotelModule = () => {
+interface HotelModuleProps {
+  defaultTab?: 'rooms' | 'reservations' | 'services';
+}
+
+export const HotelModule = ({ defaultTab = 'rooms' }: HotelModuleProps) => {
   return (
     <div className="bg-card rounded-xl shadow-card p-6">
       <div className="mb-6">
@@ -34,7 +38,7 @@ export const HotelModule = () => {
         </div>
       </div>
 
-      <Tabs defaultValue="rooms" className="w-full">
+      <Tabs defaultValue={defaultTab} className="w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="rooms" className="flex items-center gap-2">
             <Bed className="w-4 h-4" />
